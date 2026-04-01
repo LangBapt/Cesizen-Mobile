@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing } from "react-native";
 
 const ExerciseRunScreen = ({ route, navigation }) => {
   const { exercise } = route.params;
@@ -9,66 +9,81 @@ const ExerciseRunScreen = ({ route, navigation }) => {
   const [running, setRunning] = useState(false);
   const [finished, setFinished] = useState(false);
   const [cycleCount, setCycleCount] = useState(0);
+  
   const scale = useRef(new Animated.Value(1)).current;
-  const intervalRef = useRef(null);
-
   const currentPhase = phases[currentPhaseIndex];
 
-  const animatePhase = (phaseName) => {
-    const isInspir = phaseName.toLowerCase().includes("inspir");
-    const isExpir = phaseName.toLowerCase().includes("expir");
-    const toValue = isInspir ? 1.5 : isExpir ? 0.8 : 1.2;
-    const duration = (currentPhase?.durationSeconds || 4) * 1000;
-    Animated.timing(scale, { toValue, duration, useNativeDriver: true }).start();
-  };
+  useEffect(() => {
+    if (!running || finished) {
+      scale.stopAnimation();
+      return;
+    }
+
+    const name = currentPhase?.respirationPhase?.respirationPhaseName?.toLowerCase() || "";
+    let toValue = scale._value;
+
+    if (name.includes("inspir")) toValue = 1.6;
+    if (name.includes("expir")) toValue = 0.8;
+
+    Animated.timing(scale, {
+      toValue,
+      duration: timeLeft * 1000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  }, [currentPhaseIndex, running]);
 
   useEffect(() => {
-    if (!running) return;
-    animatePhase(currentPhase?.respirationPhase?.respirationPhaseName || "");
-    intervalRef.current = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current);
-          const nextIndex = currentPhaseIndex + 1;
-          if (nextIndex >= phases.length) {
-            const newCycle = cycleCount + 1;
-            const totalCycles = Math.floor(exercise.duration / phases.reduce((s, p) => s + p.durationSeconds, 0));
-            if (newCycle >= totalCycles) {
-              setFinished(true);
-              setRunning(false);
+    let interval = null;
+
+    if (running && !finished) {
+      interval = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            const nextIndex = currentPhaseIndex + 1;
+            
+            if (nextIndex < phases.length) {
+              setCurrentPhaseIndex(nextIndex);
+              return phases[nextIndex].durationSeconds;
             } else {
-              setCycleCount(newCycle);
-              setCurrentPhaseIndex(0);
-              setTimeLeft(phases[0].durationSeconds);
+              const newCycle = cycleCount + 1;
+              const totalCyclesNeeded = Math.floor(exercise.duration / phases.reduce((s, p) => s + p.durationSeconds, 0));
+
+              if (newCycle >= totalCyclesNeeded) {
+                setFinished(true);
+                setRunning(false);
+                return 0;
+              } else {
+                setCycleCount(newCycle);
+                setCurrentPhaseIndex(0);
+                return phases[0].durationSeconds;
+              }
             }
-          } else {
-            setCurrentPhaseIndex(nextIndex);
-            setTimeLeft(phases[nextIndex].durationSeconds);
           }
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(intervalRef.current);
-  }, [running, currentPhaseIndex, cycleCount]);
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [running, currentPhaseIndex, cycleCount, finished]);
+
 
   const totalCycles = Math.floor(exercise.duration / phases.reduce((s, p) => s + p.durationSeconds, 0));
 
   const getPhaseColor = (name = "") => {
-    if (name.toLowerCase().includes("inspir")) return "#2c7a7b";
-    if (name.toLowerCase().includes("expir")) return "#e53e3e";
+    const n = name.toLowerCase();
+    if (n.includes("inspir")) return "#2c7a7b";
+    if (n.includes("expir")) return "#e53e3e";
     return "#d69e2e";
   };
 
   if (finished) {
     return (
       <View style={styles.container}>
-        <Text style={styles.finishedEmoji}>🎉</Text>
         <Text style={styles.finishedTitle}>Exercice terminé !</Text>
-        <Text style={styles.finishedSubtitle}>Vous avez complété "{exercise.title}". Prenez un moment pour ressentir les bénéfices.</Text>
         <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonText}>Retour aux exercices</Text>
+          <Text style={styles.buttonText}>Retour</Text>
         </TouchableOpacity>
       </View>
     );
@@ -78,32 +93,43 @@ const ExerciseRunScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <Text style={styles.exerciseTitle}>{exercise.title}</Text>
       <Text style={styles.cycleText}>Cycle {cycleCount + 1} / {totalCycles}</Text>
+      
       <View style={styles.animContainer}>
-        <Animated.View style={[styles.circle, { transform: [{ scale }], backgroundColor: getPhaseColor(currentPhase?.respirationPhase?.respirationPhaseName) }]}>
+        <Animated.View style={[
+          styles.circle, 
+          { transform: [{ scale }], backgroundColor: getPhaseColor(currentPhase?.respirationPhase?.respirationPhaseName) }
+        ]}>
           <Text style={styles.phaseEmoji}>
             {currentPhase?.respirationPhase?.respirationPhaseName?.toLowerCase().includes("inspir") ? "↑" :
              currentPhase?.respirationPhase?.respirationPhaseName?.toLowerCase().includes("expir") ? "↓" : "—"}
           </Text>
         </Animated.View>
       </View>
+
       <Text style={styles.phaseName}>{currentPhase?.respirationPhase?.respirationPhaseName}</Text>
       <Text style={styles.timer}>{timeLeft}s</Text>
+
       <View style={styles.phaseList}>
         {phases.map((p, i) => (
           <View key={i} style={[styles.phaseChip, i === currentPhaseIndex && styles.phaseChipActive]}>
             <Text style={[styles.phaseChipText, i === currentPhaseIndex && styles.phaseChipTextActive]}>
-              {p.respirationPhase.respirationPhaseName} {p.durationSeconds}s
+              {p.respirationPhase.respirationPhaseName}
             </Text>
           </View>
         ))}
       </View>
-      <TouchableOpacity style={[styles.button, running ? styles.buttonStop : styles.buttonStart]} onPress={() => setRunning(!running)}>
+
+      <TouchableOpacity 
+        style={[styles.button, running ? styles.buttonStop : styles.buttonStart]} 
+        onPress={() => setRunning(!running)}
+      >
         <Text style={styles.buttonText}>{running ? "⏸ Pause" : "▶ Démarrer"}</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
+// ... (Garde tes styles, ils sont très bien !)
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f0f4f8", alignItems: "center", justifyContent: "center", padding: 24 },
   exerciseTitle: { fontSize: 20, fontWeight: "700", color: "#2d3748", textAlign: "center", marginBottom: 4 },
@@ -120,7 +146,7 @@ const styles = StyleSheet.create({
   phaseChipTextActive: { color: "white", fontWeight: "600" },
   button: { padding: 16, borderRadius: 12, minWidth: 180, alignItems: "center" },
   buttonStart: { backgroundColor: "#2c7a7b" },
-  buttonStop: { backgroundColor: "#e53e3e" },
+  buttonStop: { backgroundColor: "#2c7a7b" },
   buttonText: { color: "white", fontWeight: "700", fontSize: 16 },
   finishedEmoji: { fontSize: 70, marginBottom: 16 },
   finishedTitle: { fontSize: 28, fontWeight: "700", color: "#2c7a7b", marginBottom: 12 },
