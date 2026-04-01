@@ -34,18 +34,15 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!user ? (
-          <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Main" component={MainTabs} />
-            <Stack.Screen name="InformationDetail" component={InformationDetailScreen} options={{ headerShown: true, title: "Détail", headerTintColor: "#2c7a7b" }} />
-            <Stack.Screen name="ExerciseRun" component={ExerciseRunScreen} options={{ headerShown: true, title: "Exercice en cours", headerTintColor: "#2c7a7b" }} />
-          </>
-        )}
+        <Stack.Screen name="Main" component={MainTabs} />
+        
+        {/* Écrans d'authentification accessibles si non connecté */}
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: true, title: "Connexion" }} />
+        <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: true, title: "Inscription" }} />
+        
+        {/* Écrans de détails */}
+        <Stack.Screen name="InformationDetail" component={InformationDetailScreen} options={{ headerShown: true, title: "Détail" }} />
+        <Stack.Screen name="ExerciseRun" component={ExerciseRunScreen} options={{ headerShown: true, title: "Exercice en cours" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

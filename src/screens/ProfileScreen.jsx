@@ -2,12 +2,14 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from "react-native";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axiosInstance";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
   const { user, logout } = useAuth();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const navigation = useNavigation();
 
   const handlePasswordChange = async () => {
     if (!currentPassword || !newPassword) { Alert.alert("Erreur", "Remplissez les deux champs."); return; }
@@ -20,6 +22,22 @@ const ProfileScreen = () => {
       setMsg(err.response?.data?.message || "Erreur.");
     }
   };
+
+  if (!user) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
+        <Text style={{ fontSize: 18, marginBottom: 20, textAlign: "center" }}>
+          Connectez-vous pour gérer votre profil et vos données.
+        </Text>
+        <TouchableOpacity 
+          style={[styles.button, { width: "100%" }]} 
+          onPress={() => navigation.navigate("Login")}
+        >
+          <Text style={styles.buttonText}>Aller à la connexion</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>

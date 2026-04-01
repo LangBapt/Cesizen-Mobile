@@ -1,28 +1,32 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useAuth } from "../context/AuthContext";
+import LoginButton from "../components/LoginButton";
 
 const HomeScreen = () => {
   const { user } = useAuth();
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.logo}>🧘</Text>
-        <Text style={styles.title}>CESIZen</Text>
-        <Text style={styles.welcome}>Bonjour, {user?.username} 👋</Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>🧠 Votre santé mentale</Text>
-        <Text style={styles.cardText}>CESIZen vous accompagne au quotidien avec des exercices de respiration, des informations sur la santé mentale et des outils pour mieux gérer votre stress.</Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>💡 Le saviez-vous ?</Text>
-        <Text style={styles.cardText}>La cohérence cardiaque est une technique de respiration qui permet de réduire le stress en seulement 5 minutes. Essayez-la dans l'onglet Respiration !</Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>📖 Explorer</Text>
-        <Text style={styles.cardText}>Consultez nos articles sur la santé mentale dans l'onglet Informations pour mieux comprendre et agir sur votre bien-être.</Text>
-      </View>
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        <LoginButton />
+        <View style={styles.header}>
+          <Text style={styles.logo}>🧘</Text>
+          <Text style={styles.title}>CESIZen</Text>
+          <Text style={styles.welcome}>Bonjour {user?.username} 👋</Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>🧠 Votre santé mentale</Text>
+          <Text style={styles.cardText}>CESIZen vous accompagne au quotidien avec des exercices de respiration, des informations sur la santé mentale et des outils pour mieux gérer votre stress.</Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>💡 Le saviez-vous ?</Text>
+          <Text style={styles.cardText}>La cohérence cardiaque est une technique de respiration qui permet de réduire le stress en seulement 5 minutes. Essayez-la dans l'onglet Respiration !</Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>📖 Explorer</Text>
+          <Text style={styles.cardText}>Consultez nos articles sur la santé mentale dans l'onglet Informations pour mieux comprendre et agir sur votre bien-être.</Text>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
