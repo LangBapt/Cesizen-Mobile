@@ -37,11 +37,11 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", padding: 24, backgroundColor: "#f0f4f8" },
   logo: { fontSize: 60, textAlign: "center" },
-  title: { fontSize: 26, fontWeight: "700", textAlign: "center", color: "#2c7a7b", marginBottom: 32 },
+  title: { fontSize: 26, fontWeight: "700", textAlign: "center", color: "#01bf60", marginBottom: 32 },
   input: { backgroundColor: "white", borderRadius: 8, padding: 14, marginBottom: 12, fontSize: 16, borderWidth: 1, borderColor: "#e2e8f0" },
-  button: { backgroundColor: "#2c7a7b", padding: 16, borderRadius: 8, alignItems: "center", marginTop: 8 },
+  button: { backgroundColor: "#01bf60", padding: 16, borderRadius: 8, alignItems: "center", marginTop: 8 },
   buttonText: { color: "white", fontWeight: "700", fontSize: 16 },
-  link: { textAlign: "center", color: "#2c7a7b", marginTop: 20, fontSize: 14 },
+  link: { textAlign: "center", color: "#01bf60", marginTop: 20, fontSize: 14 },
 });
 
 export default RegisterScreen;

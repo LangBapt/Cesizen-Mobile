@@ -73,7 +73,7 @@ const ExerciseRunScreen = ({ route, navigation }) => {
 
   const getPhaseColor = (name = "") => {
     const n = name.toLowerCase();
-    if (n.includes("inspir")) return "#2c7a7b";
+    if (n.includes("inspir")) return "#01bf60";
     if (n.includes("expir")) return "#e53e3e";
     return "#d69e2e";
   };
@@ -136,19 +136,19 @@ const styles = StyleSheet.create({
   animContainer: { width: 200, height: 200, alignItems: "center", justifyContent: "center", marginBottom: 24 },
   circle: { width: 120, height: 120, borderRadius: 60, alignItems: "center", justifyContent: "center" },
   phaseEmoji: { fontSize: 36, color: "white" },
-  phaseName: { fontSize: 22, fontWeight: "700", color: "#2c7a7b", marginBottom: 8 },
+  phaseName: { fontSize: 22, fontWeight: "700", color: "#01bf60", marginBottom: 8 },
   timer: { fontSize: 48, fontWeight: "700", color: "#2d3748", marginBottom: 24 },
   phaseList: { flexDirection: "row", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 32 },
   phaseChip: { backgroundColor: "#e2e8f0", paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20 },
-  phaseChipActive: { backgroundColor: "#2c7a7b" },
+  phaseChipActive: { backgroundColor: "#01bf60" },
   phaseChipText: { color: "#4a5568", fontSize: 13 },
   phaseChipTextActive: { color: "white", fontWeight: "600" },
   button: { padding: 16, borderRadius: 12, minWidth: 180, alignItems: "center" },
-  buttonStart: { backgroundColor: "#2c7a7b" },
-  buttonStop: { backgroundColor: "#2c7a7b" },
+  buttonStart: { backgroundColor: "#01bf60" },
+  buttonStop: { backgroundColor: "#01bf60" },
   buttonText: { color: "white", fontWeight: "700", fontSize: 16 },
   finishedEmoji: { fontSize: 70, marginBottom: 16 },
-  finishedTitle: { fontSize: 28, fontWeight: "700", color: "#2c7a7b", marginBottom: 12 },
+  finishedTitle: { fontSize: 28, fontWeight: "700", color: "#01bf60", marginBottom: 12 },
   finishedSubtitle: { fontSize: 15, color: "#718096", textAlign: "center", lineHeight: 24, marginBottom: 32 },
 });
 

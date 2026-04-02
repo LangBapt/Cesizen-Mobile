@@ -17,7 +17,7 @@ const InformationDetailScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white", padding: 24 },
   badge: { backgroundColor: "#e6fffa", alignSelf: "flex-start", paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12, marginBottom: 12 },
-  badgeText: { color: "#2c7a7b", fontWeight: "600" },
+  badgeText: { color: "#01bf60", fontWeight: "600" },
   title: { fontSize: 24, fontWeight: "700", color: "#2d3748", marginBottom: 8 },
   date: { fontSize: 13, color: "#a0aec0", marginBottom: 16 },
   description: { fontSize: 16, color: "#4a5568", fontStyle: "italic", lineHeight: 24, marginBottom: 16 },

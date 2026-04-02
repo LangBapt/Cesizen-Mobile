@@ -11,7 +11,7 @@ const InformationListScreen = ({ navigation }) => {
     api.get("/informations").then(res => { setInfos(res.data); setLoading(false); });
   }, []));
 
-  if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" color="#2c7a7b" />;
+  if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" color="#01bf60" />;
 
   return (
     <View style={styles.container}>
@@ -35,10 +35,10 @@ const InformationListScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f0f4f8" },
-  header: { fontSize: 20, fontWeight: "700", color: "#2c7a7b", padding: 20, paddingBottom: 0, paddingTop: 50 },
+  header: { fontSize: 20, fontWeight: "700", color: "#01bf60", padding: 20, paddingBottom: 0, paddingTop: 50 },
   card: { backgroundColor: "white", borderRadius: 12, padding: 16, marginBottom: 12, elevation: 3, shadowColor: "#000", shadowOpacity: 0.08, shadowRadius: 6 },
   badge: { backgroundColor: "#e6fffa", alignSelf: "flex-start", paddingHorizontal: 10, paddingVertical: 3, borderRadius: 12, marginBottom: 8 },
-  badgeText: { color: "#2c7a7b", fontSize: 12, fontWeight: "600" },
+  badgeText: { color: "#01bf60", fontSize: 12, fontWeight: "600" },
   title: { fontSize: 16, fontWeight: "600", color: "#2d3748", marginBottom: 4 },
   desc: { fontSize: 14, color: "#718096", lineHeight: 20 },
   date: { fontSize: 12, color: "#a0aec0", marginTop: 8 },

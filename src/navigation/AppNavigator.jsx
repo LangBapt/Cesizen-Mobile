@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 const TabIcon = ({ label }) => <Text style={{ fontSize: 18 }}>{label}</Text>;
 
 const MainTabs = () => (
-  <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: "#2c7a7b" }}>
+  <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: "#01bf60" }}>
     <Tab.Screen name="Accueil" component={HomeScreen} options={{ tabBarIcon: () => <TabIcon label="🏠" /> }} />
     <Tab.Screen name="Informations" component={InformationListScreen} options={{ tabBarIcon: () => <TabIcon label="📰" /> }} />
     <Tab.Screen name="Respiration" component={ExerciseConfigScreen} options={{ tabBarIcon: () => <TabIcon label="🫁" /> }} />
@@ -29,23 +29,21 @@ const MainTabs = () => (
 
 const AppNavigator = () => {
   const { user, loading } = useAuth();
-  if (loading) return null;
+
+  if (loading) return null; 
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={MainTabs} />
         
-        {/* Écrans d'authentification accessibles si non connecté */}
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: true, title: "Connexion" }} />
         <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: true, title: "Inscription" }} />
         
-        {/* Écrans de détails */}
-        <Stack.Screen name="InformationDetail" component={InformationDetailScreen} options={{ headerShown: true, title: "Détail" }} />
-        <Stack.Screen name="ExerciseRun" component={ExerciseRunScreen} options={{ headerShown: true, title: "Exercice en cours" }} />
+        <Stack.Screen name="InformationDetail" component={InformationDetailScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="ExerciseRun" component={ExerciseRunScreen} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
 export default AppNavigator;

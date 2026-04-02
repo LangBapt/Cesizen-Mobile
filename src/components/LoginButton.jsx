@@ -19,8 +19,8 @@ const LoginButton = () => {
 };
 
 const styles = StyleSheet.create({
-  btn: { backgroundColor: "#2c7a7b", padding: 10, borderRadius: 20, position: "absolute", top: 50, right: 20, zIndex: 10, elevation: 5 },
-  text: { color: "white", fontWeight: "bold", fontSize: 12 }
+  btn: { backgroundColor: "#ffffff", padding: 10, borderRadius: 20, position: "absolute", top: 50, right: 20, zIndex: 10, elevation: 5 },
+  text: { color: "#01bf60", fontWeight: "bold", fontSize: 12 }
 });
 
 export default LoginButton;
