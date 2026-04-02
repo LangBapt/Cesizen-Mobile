@@ -129,7 +129,6 @@ const ExerciseRunScreen = ({ route, navigation }) => {
   );
 };
 
-// ... (Garde tes styles, ils sont très bien !)
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f0f4f8", alignItems: "center", justifyContent: "center", padding: 24 },
   exerciseTitle: { fontSize: 20, fontWeight: "700", color: "#2d3748", textAlign: "center", marginBottom: 4 },
