@@ -40,8 +40,8 @@ const AppNavigator = () => {
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: true, title: "Connexion" }} />
         <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: true, title: "Inscription" }} />
         
-        <Stack.Screen name="InformationDetail" component={InformationDetailScreen} options={{ headerShown: true }} />
-        <Stack.Screen name="ExerciseRun" component={ExerciseRunScreen} options={{ headerShown: true }} />
+        <Stack.Screen name="InformationDetail" component={InformationDetailScreen} options={{ headerShown: true, title: "Article" }} />
+        <Stack.Screen name="ExerciseRun" component={ExerciseRunScreen} options={{ headerShown: true, title: "Exercice" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
